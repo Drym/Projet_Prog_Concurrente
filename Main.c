@@ -5,6 +5,13 @@
 #include <stdio.h>
 #include "Main.h"
 
+int taille = 4;
+int matrice[taille][taille];
+int matrice2[taille][taille];
+int TEMP_FROID = 0;
+int TEMP_CHAUD = 256;
+
+
 
 int main(){
 	demander_param();
@@ -19,6 +26,22 @@ int demander_param(){
 
     printf("Vous avez tape : ");
     putc(c, stdout);
+
+    return 0;
+}
+
+
+int initialisation() {
+
+    int milieu = (1/8)*taille;
+
+    for(i=0; i < taille; i++)
+    {
+        for(j=0; j < taille; j++)
+        {
+            t[i][j]=TEMP_FROID;
+        }
+    }
 
     return 0;
 }
