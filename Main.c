@@ -13,7 +13,7 @@ int taille=4;
 int main(){
 	float matrice[100][100];
 	initialisation((float*)matrice);
-	afficher(matrice);
+	afficher((float*)matrice);
 	return 0;
 }
 
@@ -27,14 +27,13 @@ int initialisation(float *matrice) {
             //matrice[(taille * ligne) + colonne]
         }
     }
-    
     return 0;
 }
 
-void afficher(float (*matrice)[taille]){
+void afficher(float *matrice){
 	for(int i=0; i< taille ; i++){
 		for(int j=0; j< taille ; j++){
-			printf("--%f--", matrice[i][j]);
+			printf("--%f--", matrice[(taille*i)+j]);
 		}	
 		printf("\n");
 	}

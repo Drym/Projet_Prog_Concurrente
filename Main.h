@@ -6,6 +6,6 @@
 #define PROJET_PROG_CONCURRENTE_MAIN_H
 
 int initialisation( float *matrice);
-void afficher(float (*matrice)[100]);
+void afficher(float *matrice);
 
 #endif //PROJET_PROG_CONCURRENTE_MAIN_H
