@@ -3,45 +3,39 @@
 //
 
 #include <stdio.h>
+#include <stdlib.h>
 #include "Main.h"
 
-int taille = 4;
-int matrice[taille][taille];
-int matrice2[taille][taille];
-int TEMP_FROID = 0;
-int TEMP_CHAUD = 256;
-
-
+float TEMP_FROID = 0;
+float TEMP_CHAUD = 256;
+int taille=4;
 
 int main(){
-	demander_param();
+	float matrice[100][100];
+	initialisation((float*)matrice);
+	afficher(matrice);
 	return 0;
 }
 
-int demander_param(){
-	int c;
+int initialisation(float *matrice) {
+
+    int milieu = (1/8)*taille+1;
+    printf("milieu: %d\n", milieu);
+    for(int i=0; i<2;i++){
+        for (int j=0; j<2;j++){
+            matrice[(taille * (milieu+i)) + (milieu+j)]=TEMP_CHAUD;
+            //matrice[(taille * ligne) + colonne]
+        }
+    }
     
-    printf("Veuillez taper un entier : ");
-    c = getc(stdin);
-
-    printf("Vous avez tape : ");
-    putc(c, stdout);
-
     return 0;
 }
 
-
-int initialisation() {
-
-    int milieu = (1/8)*taille;
-
-    for(i=0; i < taille; i++)
-    {
-        for(j=0; j < taille; j++)
-        {
-            t[i][j]=TEMP_FROID;
-        }
-    }
-
-    return 0;
+void afficher(float (*matrice)[taille]){
+	for(int i=0; i< taille ; i++){
+		for(int j=0; j< taille ; j++){
+			printf("--%f--", matrice[i][j]);
+		}	
+		printf("\n");
+	}
 }

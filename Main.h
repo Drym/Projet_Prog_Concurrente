@@ -5,8 +5,7 @@
 #ifndef PROJET_PROG_CONCURRENTE_MAIN_H
 #define PROJET_PROG_CONCURRENTE_MAIN_H
 
-int initialisation();
-
-int demander_param();
+int initialisation( float *matrice);
+void afficher(float (*matrice)[100]);
 
 #endif //PROJET_PROG_CONCURRENTE_MAIN_H
