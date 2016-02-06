@@ -5,7 +5,7 @@
 #ifndef PROJET_PROG_CONCURRENTE_MAIN_H
 #define PROJET_PROG_CONCURRENTE_MAIN_H
 
-int initialisation( float *matrice);
+int chaufferMilieu( float *matrice);
 void afficher(float *matrice);
 void afficherTabInt(int tab[], int taille);
 void uneIteration(float *matrice);

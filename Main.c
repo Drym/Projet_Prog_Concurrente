@@ -7,11 +7,13 @@
 //Températures prédéfinies
 float TEMP_FROID = 0;
 float TEMP_CHAUD = 256;
-int taille=4;
+int n=4;
+int taille;
 
 int main(int argc, char *argv[]) {
     //Matrice
-	float matrice[100][100];
+    float matrice[100][100];
+    taille= 2<<(n-1);
 
     //Variables des différentes options
     int *s = malloc (sizeof(int));
@@ -75,25 +77,29 @@ int main(int argc, char *argv[]) {
    afficherTabInt(t, tailleT);
    */
 
-	initialisation((float*)matrice);
+	chaufferMilieu((float*)matrice);
 	afficher((float*)matrice);
 
     //test d'une itération
     uneIteration((float*)matrice);
     //On remet de centre chaud
-    initialisation((float*)matrice);
+    chaufferMilieu((float*)matrice);
     afficher((float*)matrice);
 	return 0;
 }
 
 
-int initialisation(float *matrice) {
-
-    int milieu = (1/8)*taille+1;
-    printf("milieu: %d\n", milieu);
-    for(int i=0; i<2;i++){
-        for (int j=0; j<2;j++){
-            matrice[(taille * (milieu+i)) + (milieu+j)]=TEMP_CHAUD;
+int chaufferMilieu(float *matrice) {
+    int dep_chaud=(2<<(n-2))-(2<<(n-5));
+    int fin_chaud=(2<<(n-2))+(2<<(n-5));
+    if(n==4){ //car 2<<0=0 alors que 2^0=1
+        dep_chaud=7;
+        fin_chaud=9;
+    }
+    for(int i=dep_chaud; i<fin_chaud;i++){
+        for (int j=dep_chaud; j<fin_chaud;j++){
+            printf("Ajout chaud à [%d][%d] \n", i, j);
+            matrice[taille * (i) + (j)]=TEMP_CHAUD;
             //matrice[(taille * ligne) + colonne]
         }
     }
