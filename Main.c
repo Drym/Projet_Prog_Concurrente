@@ -66,8 +66,6 @@ int main(int argc, char *argv[]) {
                 }
                 break;
         }
-
-
     /*
    afficherTabInt(s, tailleS);
    printf("%d\n", m);
@@ -78,13 +76,13 @@ int main(int argc, char *argv[]) {
    */
 
 	chaufferMilieu((float*)matrice);
-	afficher((float*)matrice);
+	afficherQuart((float*)matrice);
 
     //test d'une itération
     uneIteration((float*)matrice);
-    //On remet de centre chaud
-    chaufferMilieu((float*)matrice);
-    afficher((float*)matrice);
+    afficherQuart((float*)matrice);
+    uneIteration((float*)matrice);
+    afficherQuart((float*)matrice);
 	return 0;
 }
 
@@ -109,10 +107,19 @@ int chaufferMilieu(float *matrice) {
 void afficher(float *matrice){
 	for(int i=0; i< taille ; i++){
 		for(int j=0; j< taille ; j++){
-			printf("--%f--", matrice[(taille*i)+j]);
+			printf("-%.2f-", matrice[(taille*i)+j]);
 		}	
 		printf("\n");
 	}
+}
+
+void afficherQuart(float *matrice){
+    for(int i=0; i< taille/2 ; i++){
+        for(int j=0; j< taille/2 ; j++){
+            printf("-%.2f-", matrice[(taille*i)+j]);
+        }   
+        printf("\n");
+    }
 }
 
 void afficherTabInt(int tab[], int taille) {
@@ -138,6 +145,7 @@ void uneIteration(float *matrice) {
                 //Go next
             }
             else {
+                
                 //Todo cas négatif et débordement
                 //Répartition de la chaleur
                 tmp[i-1][j] += ( (matrice[(taille*i)+j])/36 )* 4;
@@ -148,16 +156,16 @@ void uneIteration(float *matrice) {
                 tmp[i+1][j+1] += ( (matrice[(taille*i)+j])/36);
                 tmp[i-1][j+1] += ( (matrice[(taille*i)+j])/36);
                 tmp[i+1][j-1] += ( (matrice[(taille*i)+j])/36);
+                tmp[i][j] += ( (matrice[(taille*i)+j])/36)*16;
             }
         }
     }
-
     //Copie de la matrice
     for(int i=0; i< taille ; i++){
         for(int j=0; j< taille ; j++) {
             matrice[(taille*i)+j] = tmp[i][j];
         }
     }
-
-
+    //On remet de centre chaud
+    chaufferMilieu((float*)matrice);
 }

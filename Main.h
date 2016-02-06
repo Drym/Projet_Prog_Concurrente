@@ -7,6 +7,7 @@
 
 int chaufferMilieu( float *matrice);
 void afficher(float *matrice);
+void afficherQuart(float *matrice);
 void afficherTabInt(int tab[], int taille);
 void uneIteration(float *matrice);
 
