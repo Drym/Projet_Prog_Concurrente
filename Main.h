@@ -7,6 +7,6 @@
 
 int initialisation( float *matrice);
 void afficher(float *matrice);
-void afficherTabInt(int tab[]);
+void afficherTabInt(int tab[], int taille);
 
 #endif //PROJET_PROG_CONCURRENTE_MAIN_H

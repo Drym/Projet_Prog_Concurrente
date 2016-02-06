@@ -15,9 +15,12 @@ int main(int argc, char *argv[]) {
 
     //Variables des différentes options
     int *s = malloc (sizeof(int));
+    int tailleS;
     int it;
     int *e = malloc (sizeof(int));
+    int tailleE;
     int *t = malloc (sizeof(int));
+    int tailleT;
     int m = 0 , a = 0; //Booléen à faux
     //pour découper les options
     char tmp[1];
@@ -31,7 +34,8 @@ int main(int argc, char *argv[]) {
     while ((optch = getopt(argc, argv, "s:mai:e:t:")) != -1)
         switch (optch) {
             case 's':
-                for(int i=0; i < sizeof(optarg); i++) {
+                tailleS = strlen(optarg);
+                for(int i=0; i < tailleS; i++) {
                     *tmp = optarg[i];
                     s[i] = atoi(tmp);
                 }
@@ -46,13 +50,15 @@ int main(int argc, char *argv[]) {
                 it = atoi(optarg);
                 break;
             case 'e':
-                for(int i=0; i < sizeof(optarg); i++) {
+                tailleE = strlen(optarg);
+                for(int i=0; i < tailleE; i++) {
                     *tmp = optarg[i];
                     e[i] = atoi(tmp);
                 }
                 break;
             case 't':
-                for(int i=0; i < sizeof(optarg); i++) {
+                tailleT = strlen(optarg);
+                for(int i=0; i < tailleT; i++) {
                     *tmp = optarg[i];
                     t[i] = atoi(tmp);
                 }
@@ -61,13 +67,13 @@ int main(int argc, char *argv[]) {
 
 
     /*
-    afficherTabInt(s);
-    printf("%d\n", m);
-    printf("%d\n", a);
-    printf("%d\n", it);
-    afficherTabInt(e);
-    afficherTabInt(t);
-    */
+   afficherTabInt(s, tailleS);
+   printf("%d\n", m);
+   printf("%d\n", a);
+   printf("%d\n", it);
+   afficherTabInt(e, tailleE);
+   afficherTabInt(t, tailleT);
+   */
 
 	initialisation((float*)matrice);
 	afficher((float*)matrice);
@@ -97,9 +103,9 @@ void afficher(float *matrice){
 	}
 }
 
-void afficherTabInt(int tab[]) {
+void afficherTabInt(int tab[], int taille) {
 
-    for(int i=0; i <  sizeof(tab); i++) {
+    for(int i=0; i < taille; i++) {
         printf("%d", tab[i]);
     }
     printf("\n");
