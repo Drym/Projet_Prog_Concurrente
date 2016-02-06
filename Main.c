@@ -77,6 +77,12 @@ int main(int argc, char *argv[]) {
 
 	initialisation((float*)matrice);
 	afficher((float*)matrice);
+
+    //test d'une itération
+    uneIteration((float*)matrice);
+    //On remet de centre chaud
+    initialisation((float*)matrice);
+    afficher((float*)matrice);
 	return 0;
 }
 
@@ -109,4 +115,43 @@ void afficherTabInt(int tab[], int taille) {
         printf("%d", tab[i]);
     }
     printf("\n");
+}
+
+void uneIteration(float *matrice) {
+
+    //Matrice temporaire
+    float tmp[100][100];
+    //Copie de la matrice
+    memcpy(tmp, matrice, sizeof tmp);
+
+    for(int i=0; i< taille ; i++){
+        for(int j=0; j< taille ; j++){
+
+            //Température de 0
+            if( matrice[(taille*i)+j] <= TEMP_FROID ) {
+                //Go next
+            }
+            else {
+                //Todo cas négatif et débordement
+                //Répartition de la chaleur
+                tmp[i-1][j] += ( (matrice[(taille*i)+j])/36 )* 4;
+                tmp[i+1][j] += ( (matrice[(taille*i)+j])/36 )* 4;
+                tmp[i][j-1] += ( (matrice[(taille*i)+j])/36 )* 4;
+                tmp[i][j+1] += ( (matrice[(taille*i)+j])/36 )* 4;
+                tmp[i-1][j-1] += ( (matrice[(taille*i)+j])/36);
+                tmp[i+1][j+1] += ( (matrice[(taille*i)+j])/36);
+                tmp[i-1][j+1] += ( (matrice[(taille*i)+j])/36);
+                tmp[i+1][j-1] += ( (matrice[(taille*i)+j])/36);
+            }
+        }
+    }
+
+    //Copie de la matrice
+    for(int i=0; i< taille ; i++){
+        for(int j=0; j< taille ; j++) {
+            matrice[(taille*i)+j] = tmp[i][j];
+        }
+    }
+
+
 }
