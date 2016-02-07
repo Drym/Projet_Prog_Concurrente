@@ -18,7 +18,7 @@ int main(int argc, char *argv[]) {
     //Variables des différentes options
     int *s = malloc (sizeof(int));
     int tailleS;
-    int it;
+    int it = 10000;
     int *e = malloc (sizeof(int));
     int tailleE;
     int *t = malloc (sizeof(int));
@@ -78,11 +78,13 @@ int main(int argc, char *argv[]) {
 	chaufferMilieu((float*)matrice);
 	afficherQuart((float*)matrice);
 
-    //test d'une itération
-    uneIteration((float*)matrice);
-    afficherQuart((float*)matrice);
-    uneIteration((float*)matrice);
-    afficherQuart((float*)matrice);
+    for (int i=0; i <= it; i++) {
+        uneIteration((float*)matrice);
+        printf("\n");
+        afficherQuart((float*)matrice);
+        //afficher((float*)matrice);
+    }
+
 	return 0;
 }
 
@@ -134,29 +136,101 @@ void uneIteration(float *matrice) {
 
     //Matrice temporaire
     float tmp[100][100];
-    //Copie de la matrice
-    memcpy(tmp, matrice, sizeof tmp);
 
+    //Copie de la matrice
+    for(int i=0; i< taille ; i++){
+        for(int j=0; j< taille ; j++) {
+           tmp[i][j] =  matrice[(taille*i)+j];
+
+        }
+    }
+
+    //Boucle pour répartir la chaleur
     for(int i=0; i< taille ; i++){
         for(int j=0; j< taille ; j++){
 
             //Température de 0
             if( matrice[(taille*i)+j] <= TEMP_FROID ) {
-                //Go next
+                //Rien à faire
             }
+            //Température > 0
             else {
-                
-                //Todo cas négatif et débordement
-                //Répartition de la chaleur
-                tmp[i-1][j] += ( (matrice[(taille*i)+j])/36 )* 4;
-                tmp[i+1][j] += ( (matrice[(taille*i)+j])/36 )* 4;
-                tmp[i][j-1] += ( (matrice[(taille*i)+j])/36 )* 4;
-                tmp[i][j+1] += ( (matrice[(taille*i)+j])/36 )* 4;
-                tmp[i-1][j-1] += ( (matrice[(taille*i)+j])/36);
-                tmp[i+1][j+1] += ( (matrice[(taille*i)+j])/36);
-                tmp[i-1][j+1] += ( (matrice[(taille*i)+j])/36);
-                tmp[i+1][j-1] += ( (matrice[(taille*i)+j])/36);
-                tmp[i][j] += ( (matrice[(taille*i)+j])/36)*16;
+                //Cas hors matrice négatif sur i
+                if(i-1 < 0) {
+                    //On ne fait que les j, les i+1 et le milieu
+                    tmp[i + 1][j] += ((matrice[(taille * i) + j]) / 36) * 4;
+                    tmp[i][j - 1] += ((matrice[(taille * i) + j]) / 36) * 4;
+                    tmp[i][j + 1] += ((matrice[(taille * i) + j]) / 36) * 4;
+                    tmp[i + 1][j + 1] += ((matrice[(taille * i) + j]) / 36);
+                    tmp[i + 1][j - 1] += ((matrice[(taille * i) + j]) / 36);
+                    tmp[i][j] += ((matrice[(taille * i) + j]) / 36) * 16;
+
+                }
+                //Cas hors matrice négatif sur j
+                if(j-1 < 0) {
+                    //On ne fait que les i, les j+1 et le milieu
+                    tmp[i - 1][j] += ((matrice[(taille * i) + j]) / 36) * 4;
+                    tmp[i + 1][j] += ((matrice[(taille * i) + j]) / 36) * 4;
+                    tmp[i][j + 1] += ((matrice[(taille * i) + j]) / 36) * 4;
+                    tmp[i + 1][j + 1] += ((matrice[(taille * i) + j]) / 36);
+                    tmp[i - 1][j + 1] += ((matrice[(taille * i) + j]) / 36);
+                    tmp[i][j] += ((matrice[(taille * i) + j]) / 36) * 16;
+
+                }
+                //Cas hors matrice négatif sur i et j
+                if(i-1 < 0 || j-1 < 0) {
+                    //On ne fait que le milieu et les +
+                    tmp[i + 1][j] += ((matrice[(taille * i) + j]) / 36) * 4;
+                    tmp[i][j + 1] += ((matrice[(taille * i) + j]) / 36) * 4;
+                    tmp[i + 1][j + 1] += ((matrice[(taille * i) + j]) / 36);
+                    tmp[i][j] += ((matrice[(taille * i) + j]) / 36) * 16;
+
+
+                }
+                //Cas positif hors matrice sur i
+                if(i+1 > taille*taille) {
+                    //On ne fait que les j, les i-1 et le milieu
+                    tmp[i - 1][j] += ((matrice[(taille * i) + j]) / 36) * 4;
+                    tmp[i][j - 1] += ((matrice[(taille * i) + j]) / 36) * 4;
+                    tmp[i][j + 1] += ((matrice[(taille * i) + j]) / 36) * 4;
+                    tmp[i - 1][j - 1] += ((matrice[(taille * i) + j]) / 36);
+                    tmp[i - 1][j + 1] += ((matrice[(taille * i) + j]) / 36);
+                    tmp[i][j] += ((matrice[(taille * i) + j]) / 36) * 16;
+
+
+                }
+                //Cas positif hors matrice sur j
+                if(j+1 > taille*taille) {
+                    //On ne fait que les i, les j-1 et le milieu
+                    tmp[i - 1][j] += ((matrice[(taille * i) + j]) / 36) * 4;
+                    tmp[i + 1][j] += ((matrice[(taille * i) + j]) / 36) * 4;
+                    tmp[i][j - 1] += ((matrice[(taille * i) + j]) / 36) * 4;
+                    tmp[i - 1][j - 1] += ((matrice[(taille * i) + j]) / 36);
+                    tmp[i + 1][j - 1] += ((matrice[(taille * i) + j]) / 36);
+                    tmp[i][j] += ((matrice[(taille * i) + j]) / 36) * 16;
+
+                }
+                //Cas positif hors matrice sur i et j
+                if(i+1 > taille*taille || j+1 > taille*taille) {
+                    //On ne fait que le milieu et les -
+                    tmp[i - 1][j] += ((matrice[(taille * i) + j]) / 36) * 4;
+                    tmp[i][j - 1] += ((matrice[(taille * i) + j]) / 36) * 4;
+                    tmp[i - 1][j - 1] += ((matrice[(taille * i) + j]) / 36);
+                    tmp[i][j] += ((matrice[(taille * i) + j]) / 36) * 16;
+
+                }
+                else {
+                    //On fait tout
+                    tmp[i - 1][j] += ((matrice[(taille * i) + j]) / 36) * 4;
+                    tmp[i + 1][j] += ((matrice[(taille * i) + j]) / 36) * 4;
+                    tmp[i][j - 1] += ((matrice[(taille * i) + j]) / 36) * 4;
+                    tmp[i][j + 1] += ((matrice[(taille * i) + j]) / 36) * 4;
+                    tmp[i - 1][j - 1] += ((matrice[(taille * i) + j]) / 36);
+                    tmp[i + 1][j + 1] += ((matrice[(taille * i) + j]) / 36);
+                    tmp[i - 1][j + 1] += ((matrice[(taille * i) + j]) / 36);
+                    tmp[i + 1][j - 1] += ((matrice[(taille * i) + j]) / 36);
+                    tmp[i][j] += ((matrice[(taille * i) + j]) / 36) * 16;
+                }
             }
         }
     }
@@ -166,6 +240,6 @@ void uneIteration(float *matrice) {
             matrice[(taille*i)+j] = tmp[i][j];
         }
     }
-    //On remet de centre chaud
+    //On remet le centre chaud
     chaufferMilieu((float*)matrice);
 }
