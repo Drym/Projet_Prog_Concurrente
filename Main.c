@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <getopt.h>
+#include <math.h>
 #include "Main.h"
 
 //Températures prédéfinies
@@ -75,15 +76,8 @@ int main(int argc, char *argv[]) {
    afficherTabInt(t, tailleT);
    */
 
-	chaufferMilieu((float*)matrice);
-	afficherQuart((float*)matrice);
+    lancement((float*)matrice, tailleS, s, it);
 
-    for (int i=0; i <= it; i++) {
-        uneIteration((float*)matrice);
-        printf("\n");
-        afficherQuart((float*)matrice);
-        //afficher((float*)matrice);
-    }
 
 	return 0;
 }
@@ -98,7 +92,7 @@ int chaufferMilieu(float *matrice) {
     }
     for(int i=dep_chaud; i<fin_chaud;i++){
         for (int j=dep_chaud; j<fin_chaud;j++){
-            printf("Ajout chaud à [%d][%d] \n", i, j);
+            //printf("Ajout chaud à [%d][%d] \n", i, j);
             matrice[taille * (i) + (j)]=TEMP_CHAUD;
             //matrice[(taille * ligne) + colonne]
         }
@@ -242,4 +236,23 @@ void uneIteration(float *matrice) {
     }
     //On remet le centre chaud
     chaufferMilieu((float*)matrice);
+}
+
+void lancement(float *matrice, int tailleS, int s[], int it) {
+
+    //for (int i=0; i< tailleS; i++) {
+    //taille = 2<<(s[i]+4);
+
+    chaufferMilieu((float*)matrice);
+
+    for (int i=0; i <= it; i++) {
+        uneIteration((float*)matrice);
+        //afficher((float*)matrice);
+    }
+    printf("\nTaille : %d\n", taille);
+    printf("\n");
+    afficherQuart((float*)matrice);
+
+    //}
+
 }
