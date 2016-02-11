@@ -96,18 +96,8 @@ int main(int argc, char *argv[]) {
         //Itératif
         if(e[i] == 0) {
 
-            //Affiche le quart de la matrice (avant exécution) si l'option a est utilisé
-            if(a) {
-                afficherQuart((float*)matrice, taille);
-            }
-
             //Appel de la fonction lancement
-            lancement((float *) matrice, tailleS, s, it);
-
-            //Affiche le quart de la matrice (après exécution) si l'option a est utilisé
-            if(a) {
-                afficherQuart((float*)matrice, taille);
-            } //else printf("Aucun affichage demandé\n");
+            lancement((float *) matrice, tailleS, s, it, a);
 
         }
 
@@ -123,18 +113,30 @@ int main(int argc, char *argv[]) {
  * Lance les opérations sur la matrice : chauffe le milieu et effectue la répartition de la chaleur
  * @author Lucas
  */
-int lancement(float *matrice, int tailleS, int s[], int it) {
+int lancement(float *matrice, int tailleS, int s[], int it, int a) {
 
     //for (int i=0; i< tailleS; i++) {
     //taille = 2<<(s[i]+4);
 
     chaufferMilieu((float*)matrice, n, taille, TEMP_CHAUD);
 
-    for (int i=0; i <= it; i++) {
+    //Affiche le quart de la matrice (avant exécution) si l'option a est utilisé
+    if(a) {
+        afficherQuart((float*)matrice, taille);
+    }
+
+    for (int i=1; i <= it; i++) {
         uneIteration((float*)matrice, taille, TEMP_FROID);
         //On remet le centre chaud
         chaufferMilieu((float*)matrice, n, taille, TEMP_CHAUD);
     }
+
+    //Affiche le quart de la matrice (après exécution) si l'option a est utilisé
+    if(a) {
+        afficherQuart((float*)matrice, taille);
+        //afficher((float*)matrice, taille);
+    }
+
 
     //afficherQuart((float*)matrice, taille);
     //afficher((float*)matrice, taille);
