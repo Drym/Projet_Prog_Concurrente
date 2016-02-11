@@ -29,7 +29,7 @@ int afficher(float *matrice, int taille){
 int afficherQuart(float *matrice, int taille){
     for(int i=0; i< taille/2 ; i++){
         for(int j=0; j< taille/2 ; j++){
-            printf("-%.2f-", matrice[(taille*i)+j]);
+            printf("%.2f-", matrice[(taille*i)+j]);
         }
         printf("\n");
     }

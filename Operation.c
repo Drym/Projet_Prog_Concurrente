@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <math.h>
 #include "Operation.h"
 
 /**
@@ -32,14 +31,12 @@ int chaufferMilieu(float *matrice, int n, int taille, float TEMP_CHAUD) {
 int uneIteration(float *matrice, int taille, float TEMP_FROID) {
 
     //Matrice temporaire
-    float tmp[100][100];
-    float tmp2[100][100];
+    float tmp[taille+1][taille+1];
 
     //Copie de la matrice dans tmp
     for(int i=0; i< taille ; i++){
         for(int j=0; j< taille ; j++) {
             tmp[i][j] =  matrice[(taille*i)+j];
-            tmp2[i][j] =  matrice[(taille*i)+j];
         }
     }
 
@@ -141,5 +138,22 @@ int uneIteration(float *matrice, int taille, float TEMP_FROID) {
             matrice[(taille*i)+j] = tmp[i][j];
         }
     }
+
+    return 0;
+}
+
+/**
+ * Fonction miseAzero
+ * Initialise la matrise avec des 0
+ * @author Lucas
+ */
+int miseAzero(float *matrice, int taille) {
+
+    for(int i=0; i< taille ; i++) {
+        for (int j = 0; j < taille; j++) {
+            matrice[(taille * i) + j] = 0;
+        }
+    }
+
     return 0;
 }
