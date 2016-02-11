@@ -15,6 +15,8 @@ int afficher(float *matrice, int taille){
         }
         printf("\n");
     }
+    printf("\n");
+
     return 0;
 }
 
@@ -31,6 +33,8 @@ int afficherQuart(float *matrice, int taille){
         }
         printf("\n");
     }
+    printf("\n");
+
     return 0;
 }
 

@@ -90,8 +90,29 @@ int main(int argc, char *argv[]) {
    afficherTabInt(t, tailleT);
    */
 
-    //Appel de la fonction lancement
-    lancement((float*)matrice, tailleS, s, it);
+    //Regarde dans l'option e quelles sont les programmes a exécuter
+    for (int i= 0; i < tailleE; i++) {
+
+        //Itératif
+        if(e[i] == 0) {
+
+            //Affiche le quart de la matrice (avant exécution) si l'option a est utilisé
+            if(a) {
+                afficherQuart((float*)matrice, taille);
+            }
+
+            //Appel de la fonction lancement
+            lancement((float *) matrice, tailleS, s, it);
+
+            //Affiche le quart de la matrice (après exécution) si l'option a est utilisé
+            if(a) {
+                afficherQuart((float*)matrice, taille);
+            } //else printf("Aucun affichage demandé\n");
+
+        }
+
+    }
+
 
 	return 0;
 }
@@ -116,7 +137,7 @@ int lancement(float *matrice, int tailleS, int s[], int it) {
     }
 
     //afficherQuart((float*)matrice, taille);
-    afficher((float*)matrice, taille);
+    //afficher((float*)matrice, taille);
 
     //}
     return 0;
