@@ -12,7 +12,7 @@ float TEMP_FROID = 0;
 float TEMP_CHAUD = 256;
 
 //Taille de la matrice
-int n;//=4;
+int n;
 int taille;
 
 
