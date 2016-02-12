@@ -7,20 +7,20 @@ ALL = $(EXEC)
 
 # targets
 
-main : main.o Affichage.o Operation.o
-	$(CC) -o main main.o Affichage.o Operation.o
+./bin/main : ./bin/main.o ./bin/Affichage.o ./bin/Operation.o
+	$(CC) -o ./bin/main ./bin/main.o ./bin/Affichage.o ./bin/Operation.o
 
-main.o: Main.c
-	$(CC) -o main.o -c Main.c
+./bin/main.o: ./src/Main.c
+	$(CC) -o ./bin/main.o -c ./src/Main.c
 
-Affichage.o: Affichage.c
-	$(CC) -o Affichage.o -c Affichage.c
+./bin/Affichage.o: ./src/Affichage.c
+	$(CC) -o ./bin/Affichage.o -c ./src/Affichage.c
 
-Operation.o: Operation.c
-	$(CC) -o Operation.o -c Operation.c
+./bin/Operation.o: ./src/Operation.c
+	$(CC) -o ./bin/Operation.o -c ./src/Operation.c
 
 clean:
-	rm -rf *.o
+	rm -rf ./bin/*.o
 
 
 
