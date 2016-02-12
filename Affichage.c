@@ -11,7 +11,7 @@
 int afficher(float *matrice, int taille){
     for(int i=0; i< taille ; i++){
         for(int j=0; j< taille ; j++){
-            printf("-%.2f-", matrice[(taille*i)+j]);
+            printf("%.2f-", matrice[(taille*i)+j]);
         }
         printf("\n");
     }
