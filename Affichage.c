@@ -5,8 +5,8 @@
 
 /**
  * Fonction afficher
- * Affiche l'intégralité de la matrice
- * @author Chloé
+ * Affiche l'integralite de la matrice
+ * @author Chloe
  */
 int afficher(float *matrice, int taille){
     for(int i=0; i< taille ; i++){
@@ -24,7 +24,7 @@ int afficher(float *matrice, int taille){
 /**
  * Fonction afficherQuart
  * Affiche un quart de la matrice
- * @author Chloé
+ * @author Chloe
  */
 int afficherQuart(float *matrice, int taille){
     for(int i=0; i< taille/2 ; i++){
@@ -40,7 +40,7 @@ int afficherQuart(float *matrice, int taille){
 
 /**
  * Fonction afficherTabInt
- * Affiche un tableau de int (utilité nottament pour vérifier si les paramètres en entrée ont bien été récupéré)
+ * Affiche un tableau de int (utilite nottament pour verifier si les parametres en entree ont bien ete recupere)
  * @author Lucas
  */
 int afficherTabInt(int tab[], int taille) {

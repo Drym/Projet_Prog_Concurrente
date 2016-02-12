@@ -4,7 +4,7 @@
 /**
  * Fonction chaufferMilieu
  * Chauffe le milieu de la matrice
- * @author Chloé
+ * @author Chloe
  */
 int chaufferMilieu(float *matrice, int n, int taille, float TEMP_CHAUD) {
     int dep_chaud=(2<<(n-2))-(2<<(n-5));
@@ -15,7 +15,7 @@ int chaufferMilieu(float *matrice, int n, int taille, float TEMP_CHAUD) {
     }
     for(int i=dep_chaud; i<fin_chaud;i++){
         for (int j=dep_chaud; j<fin_chaud;j++){
-            //printf("Ajout chaud à [%d][%d] \n", i, j);
+            //printf("Ajout chaud a [%d][%d] \n", i, j);
             matrice[taille * (i) + (j)]=TEMP_CHAUD;
             //matrice[(taille * ligne) + colonne]
         }
@@ -25,7 +25,7 @@ int chaufferMilieu(float *matrice, int n, int taille, float TEMP_CHAUD) {
 
 /**
  * Fonction uneIteration
- * Effectue la répartition de la chaleur pour une itération
+ * Effectue la repartition de la chaleur pour une iteration
  * @author Lucas
  */
 int uneIteration(float *matrice, int taille, float TEMP_FROID) {
@@ -40,18 +40,18 @@ int uneIteration(float *matrice, int taille, float TEMP_FROID) {
         }
     }
 
-    //Boucle pour répartir la chaleur
+    //Boucle pour repartir la chaleur
     for(int i=0; i< taille ; i++){
         for(int j=0; j< taille ; j++){
 
-            //Température de 0
+            //Temperature de 0
             if( matrice[(taille*i)+j] <= TEMP_FROID ) {
-                //Rien à faire
+                //Rien a faire
             }
-            //Température > 0
+            //Temperature > 0
             else {
-                //Ici il ne faut pas répartir la chaleur en dehors de la matrice
-                //Cas hors matrice négatif sur i et j
+                //Ici il ne faut pas repartir la chaleur en dehors de la matrice
+                //Cas hors matrice negatif sur i et j
                 if(i-1 < 0 && j-1 < 0) {
                     //On ne fait que le milieu et les +
                     tmp[i + 1][j] += ((matrice[(taille * i) + j]) / 36) * 4;
@@ -68,23 +68,23 @@ int uneIteration(float *matrice, int taille, float TEMP_FROID) {
                     tmp[i][j] += (((matrice[(taille * i) + j]) / 36) * 16) - ((matrice[(taille * i) + j]));
 
                 }
-                //Cas hors matrice i positif et j négatif
+                //Cas hors matrice i positif et j negatif
                 else if (i+1 > taille*taille && j-1 < 0){
-                    //On fait le milieu, les i négatif et les j positifs
+                    //On fait le milieu, les i negatif et les j positifs
                     tmp[i - 1][j] += ((matrice[(taille * i) + j]) / 36) * 4;
                     tmp[i][j + 1] += ((matrice[(taille * i) + j]) / 36) * 4;
                     tmp[i - 1][j + 1] += ((matrice[(taille * i) + j]) / 36);
                     tmp[i][j] += (((matrice[(taille * i) + j]) / 36) * 16) - ((matrice[(taille * i) + j]));
                 }
-                //Cas hors matrice i négatif et j positif
+                //Cas hors matrice i negatif et j positif
                 else if (i-1 < 0 && j+1 > taille*taille){
-                    //On fait le milieu, les i positifs et les j négatifs
+                    //On fait le milieu, les i positifs et les j negatifs
                     tmp[i + 1][j] += ((matrice[(taille * i) + j]) / 36) * 4;
                     tmp[i][j - 1] += ((matrice[(taille * i) + j]) / 36) * 4;
                     tmp[i + 1][j - 1] += ((matrice[(taille * i) + j]) / 36);
                     tmp[i][j] += (((matrice[(taille * i) + j]) / 36) * 16) - ((matrice[(taille * i) + j]));
                 }
-                //Cas hors matrice négatif sur i
+                //Cas hors matrice negatif sur i
                 else  if(i-1 < 0) {
                     //On ne fait que les j, les i+1 et le milieu
                     tmp[i + 1][j] += ((matrice[(taille * i) + j]) / 36) * 4;
@@ -95,7 +95,7 @@ int uneIteration(float *matrice, int taille, float TEMP_FROID) {
                     tmp[i][j] += (((matrice[(taille * i) + j]) / 36) * 16) - ((matrice[(taille * i) + j]));
 
                 }
-                //Cas hors matrice négatif sur j
+                //Cas hors matrice negatif sur j
                 else if(j-1 < 0) {
                     //On ne fait que les i, les j+1 et le milieu
                     tmp[i - 1][j] += ((matrice[(taille * i) + j]) / 36) * 4;

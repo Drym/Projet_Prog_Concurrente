@@ -7,7 +7,7 @@
 #include "Affichage.h"
 #include "Operation.h"
 
-//Températures prédéfinies
+//Temperatures predefinies
 float TEMP_FROID = 0;
 float TEMP_CHAUD = 256;
 
@@ -18,13 +18,13 @@ int taille;
 
 /**
  * Fonction main
- * Récupère les valeurs en entrée en fonction de différentes options
+ * Recupere les valeurs en entree en fonction de differentes options
  * Appel la fonction lancement
  * @author Lucas
  */
 int main(int argc, char *argv[]) {
 
-    //Variables des différentes options récupéré en entrée
+    //Variables des differentes options recupere en entree
     int *s = malloc (sizeof(int));
     int tailleS;
     int it = 10000;
@@ -32,20 +32,20 @@ int main(int argc, char *argv[]) {
     int tailleE;
     int *t = malloc (sizeof(int));
     int tailleT;
-    int m = 0 , a = 0; //Booléen à faux
-    //Tableau de char pour découper les options
+    int m = 0 , a = 0; //Booleen a faux
+    //Tableau de char pour decouper les options
     char tmp[1];
 
-    //Variable pour récupérer les options
+    //Variable pour recuperer les options
     int optch;
     extern char * optarg;
     extern int optind, opterr;
 
-    //Récupération des options
+    //Recuperation des options
     while ((optch = getopt(argc, argv, "s:mai:e:t:")) != -1)
         switch (optch) {
             case 's':
-                //On découpe les différentes tailles de problèmes
+                //On decoupe les differentes tailles de problemes
                 tailleS = strlen(optarg);
                 for(int i=0; i < tailleS; i++) {
                     *tmp = optarg[i];
@@ -62,7 +62,7 @@ int main(int argc, char *argv[]) {
                 it = atoi(optarg);
                 break;
             case 'e':
-                //On découpe les différentes étapes a exécuter
+                //On decoupe les differentes etapes a executer
                 tailleE = strlen(optarg);
                 for(int i=0; i < tailleE; i++) {
                     *tmp = optarg[i];
@@ -70,7 +70,7 @@ int main(int argc, char *argv[]) {
                 }
                 break;
             case 't':
-                //On découpe les différents nombre de thread a exécuter
+                //On decoupe les differents nombre de thread a executer
                 tailleT = strlen(optarg);
                 for(int i=0; i < tailleT; i++) {
                     *tmp = optarg[i];
@@ -80,20 +80,20 @@ int main(int argc, char *argv[]) {
         }
 
 
-    //On regarde si la récupération c'est bien passée
-    /*
-   afficherTabInt(s, tailleS);
-   printf("%d\n", m);
-   printf("%d\n", a);
-   printf("%d\n", it);
-   afficherTabInt(e, tailleE);
-   afficherTabInt(t, tailleT);
-   */
+    //On regarde si la recuperation c'est bien passee
+        /*
+       afficherTabInt(s, tailleS);
+       printf("%d\n", m);
+       printf("%d\n", a);
+       printf("%d\n", it);
+       afficherTabInt(e, tailleE);
+       afficherTabInt(t, tailleT);
+        */
 
-    //Regarde dans l'option e quelles sont les programmes a exécuter
+    //Regarde dans l'option e quelles sont les programmes a executer
     for (int i= 0; i < tailleE; i++) {
 
-        //Itératif
+        //Iteratif
         if(e[i] == 0) {
 
             //Appel de la fonction lancement
@@ -110,12 +110,12 @@ int main(int argc, char *argv[]) {
 
 /**
  * Fonction lancement
- * Lance les opérations sur la matrice : chauffe le milieu et effectue la répartition de la chaleur
+ * Lance les operations sur la matrice : chauffe le milieu et effectue la repartition de la chaleur
  * @author Lucas
  */
 int lancement(int tailleS, int s[], int it, int a, int m) {
 
-    //On gère l'option -s
+    //On gere l'option -s
     for (int i=0; i< tailleS; i++) {
 
         //Variable pour le calcul de temps
@@ -138,7 +138,7 @@ int lancement(int tailleS, int s[], int it, int a, int m) {
 
         chaufferMilieu((float*)matrice, n, taille, TEMP_CHAUD);
 
-        //Affiche le quart de la matrice (avant exécution) si l'option a est utilisé
+        //Affiche le quart de la matrice (avant execution) si l'option a est utilise
         if(a) {
             afficherQuart((float*)matrice, taille);
         }
@@ -149,7 +149,7 @@ int lancement(int tailleS, int s[], int it, int a, int m) {
             chaufferMilieu((float*)matrice, n, taille, TEMP_CHAUD);
         }
 
-        //Affiche le quart de la matrice (après exécution) si l'option a est utilisé
+        //Affiche le quart de la matrice (apres execution) si l'option a est utilise
         if(a) {
             afficherQuart((float*)matrice, taille);
         }
@@ -160,11 +160,12 @@ int lancement(int tailleS, int s[], int it, int a, int m) {
 
         //Pour calculer le temps
         t2 = clock();
-        //On gère l'option m
+        //On gere l'option m
         if(m) {
             temps = (float) (t2 - t1) / CLOCKS_PER_SEC;
             printf("Done. Temps = %fs\n", temps);
         } else printf("Done\n");
     }
+
     return 0;
 }

@@ -1,5 +1,5 @@
 /*
- * @authors Chloé et Lucas
+ * @authors Chloe et Lucas
  */
 
 #ifndef PROJET_PROG_CONCURRENTE_AFFICHAGE_H
