@@ -81,14 +81,14 @@ int main(int argc, char *argv[]) {
 
 
     //On regarde si la recuperation c'est bien passee
-        /*
-       afficherTabInt(s, tailleS);
-       printf("%d\n", m);
-       printf("%d\n", a);
-       printf("%d\n", it);
-       afficherTabInt(e, tailleE);
-       afficherTabInt(t, tailleT);
-        */
+    /*
+   afficherTabInt(s, tailleS);
+   printf("%d\n", m);
+   printf("%d\n", a);
+   printf("%d\n", it);
+   afficherTabInt(e, tailleE);
+   afficherTabInt(t, tailleT);
+    */
 
     //Regarde dans l'option e quelles sont les programmes a executer
     for (int i= 0; i < tailleE; i++) {
@@ -104,68 +104,92 @@ int main(int argc, char *argv[]) {
     }
 
 
-	return 0;
+    return 0;
 }
 
 
 /**
  * Fonction lancement
- * Lance les operations sur la matrice : chauffe le milieu et effectue la repartition de la chaleur
+ * Lance les opérations sur la matrice : chauffe le milieu et effectue la répartition de la chaleur
  * @author Lucas
  */
-int lancement(int tailleS, int s[], int it, int a, int m) {
+int lancement(int tailleS, int it, int a, int m) {
 
-    //On gere l'option -s
+    //On gère l'option -s
     for (int i=0; i< tailleS; i++) {
 
         //Variable pour le calcul de temps
-        float temps;
-        clock_t t1, t2;
-        t1 = clock();
+        float temps[10];
 
         //Mise a jour de la taille
         n = 4 + s[i];
         taille = 2<<(n-1);
 
-        //Matrice
-        float matrice[taille][taille];
-
-        //On initialise la matrice avec des 0
-        miseAzero((float*)matrice, taille);
-
-        //affiche la taille
-        printf("Taille de : %d\n", taille);
-
-        chaufferMilieu((float*)matrice, n, taille, TEMP_CHAUD);
-
-        //Affiche le quart de la matrice (avant execution) si l'option a est utilise
-        if(a) {
-            afficherQuart((float*)matrice, taille);
+        if(m){
+            //on fait 10x la scenario pour avoir une moyenne du temps (on enleve les deux extremes)
+            temps[0]=lancerUnScenario(taille, it, a, n, TEMP_FROID, TEMP_CHAUD);
+            float min=temps[0];
+            float max=temps[0];
+            for (int j=1; j<10; j++){
+                temps[j]=lancerUnScenario(taille, it, 0,  n , TEMP_FROID, TEMP_CHAUD);//a =0 car on ne veut pas l'afficher à chaque fois
+                if (temps[j]>max)
+                    max=temps[j];
+                if (temps[j]<min)
+                    min=temps[j];
+            }
+            //Calcul de la moyenne:
+            float somme=0;
+            int cmpt=0;
+            for (int j = 0; j < 10; ++j){
+                if(temps[j]!=max && temps[j]!=min){
+                    somme+=temps[j];
+                    cmpt++;
+                }
+            }
+            float f=somme/cmpt;
+            printf("Temps moyen pour matrice de taille %d : %f s\n", taille, f);
+        } else {
+            lancerUnScenario(taille, it, a,  n ,TEMP_FROID, TEMP_CHAUD);
         }
-
-        for (int i=1; i <= it; i++) {
-            uneIteration((float*)matrice, taille, TEMP_FROID);
-            //On remet le centre chaud
-            chaufferMilieu((float*)matrice, n, taille, TEMP_CHAUD);
-        }
-
-        //Affiche le quart de la matrice (apres execution) si l'option a est utilise
-        if(a) {
-            afficherQuart((float*)matrice, taille);
-        }
-
-
-        //afficherQuart((float*)matrice, taille);
-        //afficher((float*)matrice, taille);
-
-        //Pour calculer le temps
-        t2 = clock();
-        //On gere l'option m
-        if(m) {
-            temps = (float) (t2 - t1) / CLOCKS_PER_SEC;
-            printf("Done. Temps = %fs\n", temps);
-        } else printf("Done\n");
     }
-
     return 0;
 }
+
+/* Fonction de lancement d'un seul scénario */
+float lancerUnScenario(int taille, int it, int a, int n, float TEMP_FROID, float TEMP_CHAUD){
+    //Matrice
+    float matrice[taille][taille];
+
+    float temps; // temps mis à faire un scénario
+    clock_t t1, t2;
+    t1 = clock();//depart
+
+    //On initialise la matrice avec des 0
+    miseAzero((float*)matrice, taille);
+
+    chaufferMilieu((float*)matrice, n, taille, TEMP_CHAUD);
+
+    //Affiche le quart de la matrice (avant exécution) si l'option a est utilisee
+    if(a) {
+        printf("Taille de : %d\n", taille);//affiche la taille
+        afficherQuart((float*)matrice, taille);
+    }
+
+    for (int i=1; i <= it; i++) {
+        uneIteration((float*)matrice, taille, TEMP_FROID);
+        //On remet le centre chaud
+        chaufferMilieu((float*)matrice, n, taille, TEMP_CHAUD);
+    }
+
+    //Affiche le quart de la matrice (après exécution) si l'option a est utilisee
+    if(a) {
+        afficherQuart((float*)matrice, taille);
+    }
+
+    //Pour calculer le temps
+    t2 = clock();
+    temps = (float) (t2 - t1) / CLOCKS_PER_SEC;
+    return temps;
+}
+
+
