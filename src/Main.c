@@ -113,7 +113,7 @@ int main(int argc, char *argv[]) {
  * Lance les opérations sur la matrice : chauffe le milieu et effectue la répartition de la chaleur
  * @author Lucas
  */
-int lancement(int tailleS, int it, int a, int m) {
+int lancement(int tailleS, int s[], int it, int a, int m) {
 
     //On gère l'option -s
     for (int i=0; i< tailleS; i++) {
