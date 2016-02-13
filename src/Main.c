@@ -127,11 +127,11 @@ int lancement(int tailleS, int s[], int it, int a, int m) {
 
         if(m){
             //on fait 10x la scenario pour avoir une moyenne du temps (on enleve les deux extremes)
-            temps[0]=lancerUnScenario(taille, it, a, n, TEMP_FROID, TEMP_CHAUD);
+            lancerUnScenario(taille, it, a, n, TEMP_FROID, TEMP_CHAUD, &temps[0]);
             float min=temps[0];
             float max=temps[0];
             for (int j=1; j<10; j++){
-                temps[j]=lancerUnScenario(taille, it, 0,  n , TEMP_FROID, TEMP_CHAUD);//a =0 car on ne veut pas l'afficher à chaque fois
+                lancerUnScenario(taille, it, 0,  n , TEMP_FROID, TEMP_CHAUD, &temps[j]);//a =0 car on ne veut pas l'afficher à chaque fois
                 if (temps[j]>max)
                     max=temps[j];
                 if (temps[j]<min)
@@ -141,6 +141,7 @@ int lancement(int tailleS, int s[], int it, int a, int m) {
             float somme=0;
             int cmpt=0;
             for (int j = 0; j < 10; ++j){
+                printf("temps[i]: %f\n", temps[j]);
                 if(temps[j]!=max && temps[j]!=min){
                     somme+=temps[j];
                     cmpt++;
@@ -149,18 +150,17 @@ int lancement(int tailleS, int s[], int it, int a, int m) {
             float f=somme/cmpt;
             printf("Temps moyen pour matrice de taille %d : %f s\n", taille, f);
         } else {
-            lancerUnScenario(taille, it, a,  n ,TEMP_FROID, TEMP_CHAUD);
+            lancerUnScenario(taille, it, a,  n ,TEMP_FROID, TEMP_CHAUD, &temps[0]);
         }
     }
     return 0;
 }
 
 /* Fonction de lancement d'un seul scénario */
-float lancerUnScenario(int taille, int it, int a, int n, float TEMP_FROID, float TEMP_CHAUD){
+int lancerUnScenario(int taille, int it, int a, int n, float TEMP_FROID, float TEMP_CHAUD, float *temps){
     //Matrice
     float matrice[taille][taille];
 
-    float temps; // temps mis à faire un scénario
     clock_t t1, t2;
     t1 = clock();//depart
 
@@ -172,7 +172,7 @@ float lancerUnScenario(int taille, int it, int a, int n, float TEMP_FROID, float
     //Affiche le quart de la matrice (avant exécution) si l'option a est utilisee
     if(a) {
         printf("Taille de : %d\n", taille);//affiche la taille
-        afficherQuart((float*)matrice, taille);
+        //afficherQuart((float*)matrice, taille);
     }
 
     for (int i=1; i <= it; i++) {
@@ -183,13 +183,13 @@ float lancerUnScenario(int taille, int it, int a, int n, float TEMP_FROID, float
 
     //Affiche le quart de la matrice (après exécution) si l'option a est utilisee
     if(a) {
-        afficherQuart((float*)matrice, taille);
+       // afficherQuart((float*)matrice, taille);
     }
 
     //Pour calculer le temps
     t2 = clock();
-    temps = (float) (t2 - t1) / CLOCKS_PER_SEC;
-    return temps;
+    *temps = (float) (t2 - t1) / CLOCKS_PER_SEC;
+    return 0;
 }
 
 
