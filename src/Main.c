@@ -79,18 +79,7 @@ int main(int argc, char *argv[]) {
                 break;
         }
 
-
-    //On regarde si la recuperation c'est bien passee
-    /*
-   afficherTabInt(s, tailleS);
-   printf("%d\n", m);
-   printf("%d\n", a);
-   printf("%d\n", it);
-   afficherTabInt(e, tailleE);
-   afficherTabInt(t, tailleT);
-    */
-
-    //Regarde dans l'option e quelles sont les programmes a executer
+    //Regarde dans l'option e quels sont les programmes a executer
     for (int i= 0; i < tailleE; i++) {
 
         //Iteratif
@@ -141,7 +130,7 @@ int lancement(int tailleS, int s[], int it, int a, int m) {
             float somme=0;
             int cmpt=0;
             for (int j = 0; j < 10; ++j){
-                printf("temps[i]: %f\n", temps[j]);
+                //printf("temps[i]: %f\n", temps[j]);
                 if(temps[j]!=max && temps[j]!=min){
                     somme+=temps[j];
                     cmpt++;
