@@ -1,3 +1,9 @@
+/**
+ * Modelisation de l'evolution de la chaleur sur une plaque chauffante
+ * 14/02/2016
+ * Chole Guglielmi et Lucas Sauvage
+ */
+
 #include <stdio.h>
 #include "Operation.h"
 
