@@ -8,6 +8,7 @@
 #include <string.h>
 #include <getopt.h>
 #include <time.h>
+#include <sys/resource.h>
 #include "Main.h"
 #include "Affichage.h"
 #include "Operation.h"
@@ -19,6 +20,9 @@ float TEMP_CHAUD = 256;
 //Taille de la matrice
 int n;
 int taille;
+
+//Structure pour calculer la mémoire utilisé
+struct rusage r_usage;
 
 
 /**
@@ -145,7 +149,13 @@ int lancement(int tailleS, int s[], int it, int a, int m) {
             printf("Temps moyen pour matrice de taille %d : %f s\n", taille, f);
         } else {
             lancerUnScenario(taille, it, a,  n ,TEMP_FROID, TEMP_CHAUD, &temps[0]);
+
         }
+
+        //Récupère et affiche la mémoire utilisée
+        getrusage(RUSAGE_SELF, &r_usage);
+        printf("Mémoire utilisée (taille %d) : %ld ko\n",taille, r_usage.ru_maxrss);
+
     }
     return 0;
 }
