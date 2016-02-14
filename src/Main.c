@@ -160,8 +160,7 @@ int lancerUnScenario(int taille, int it, int a, int n, float TEMP_FROID, float T
 
     //Affiche le quart de la matrice (avant exécution) si l'option a est utilisee
     if(a) {
-        printf("Taille de : %d\n", taille);//affiche la taille
-        //afficherQuart((float*)matrice, taille);
+        afficherQuart((float*)matrice, taille);
     }
 
     for (int i=1; i <= it; i++) {
@@ -172,7 +171,7 @@ int lancerUnScenario(int taille, int it, int a, int n, float TEMP_FROID, float T
 
     //Affiche le quart de la matrice (après exécution) si l'option a est utilisee
     if(a) {
-       // afficherQuart((float*)matrice, taille);
+       afficherQuart((float*)matrice, taille);
     }
 
     //Pour calculer le temps
