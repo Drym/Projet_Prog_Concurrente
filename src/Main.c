@@ -21,7 +21,7 @@ float TEMP_CHAUD = 256;
 int n;
 int taille;
 
-//Structure pour calculer la mémoire utilisé
+//Structure pour calculer la memoire utilise
 struct rusage r_usage;
 
 
@@ -108,12 +108,12 @@ int main(int argc, char *argv[]) {
 
 /**
  * Fonction lancement
- * Lance les opérations sur la matrice : chauffe le milieu et effectue la répartition de la chaleur
+ * Lance les operations sur la matrice : chauffe le milieu et effectue la repartition de la chaleur
  * @author Lucas
  */
 int lancement(int tailleS, int s[], int it, int a, int m) {
 
-    //On gère l'option -s
+    //On gere l'option -s
     for (int i=0; i< tailleS; i++) {
 
         //Variable pour le calcul de temps
@@ -129,7 +129,7 @@ int lancement(int tailleS, int s[], int it, int a, int m) {
             float min=temps[0];
             float max=temps[0];
             for (int j=1; j<10; j++){
-                lancerUnScenario(taille, it, 0,  n , TEMP_FROID, TEMP_CHAUD, &temps[j]);//a =0 car on ne veut pas l'afficher à chaque fois
+                lancerUnScenario(taille, it, 0,  n , TEMP_FROID, TEMP_CHAUD, &temps[j]);//a =0 car on ne veut pas l'afficher a chaque fois
                 if (temps[j]>max)
                     max=temps[j];
                 if (temps[j]<min)
@@ -152,15 +152,15 @@ int lancement(int tailleS, int s[], int it, int a, int m) {
 
         }
 
-        //Récupère et affiche la mémoire utilisée
+        //Recupere et affiche la memoire utilisee
         getrusage(RUSAGE_SELF, &r_usage);
-        printf("Mémoire utilisée (taille %d) : %ld ko\n",taille, r_usage.ru_maxrss);
+        printf("Memoire utilisee (taille %d) : %ld ko\n",taille, r_usage.ru_maxrss);
 
     }
     return 0;
 }
 
-/* Fonction de lancement d'un seul scénario */
+/* Fonction de lancement d'un seul scenario */
 int lancerUnScenario(int taille, int it, int a, int n, float TEMP_FROID, float TEMP_CHAUD, float *temps){
     //Matrice
     float matrice[taille][taille];
@@ -173,7 +173,7 @@ int lancerUnScenario(int taille, int it, int a, int n, float TEMP_FROID, float T
 
     chaufferMilieu((float*)matrice, n, taille, TEMP_CHAUD);
 
-    //Affiche le quart de la matrice (avant exécution) si l'option a est utilisee
+    //Affiche le quart de la matrice (avant execution) si l'option a est utilisee
     if(a) {
         afficherQuart((float*)matrice, taille);
     }
@@ -184,7 +184,7 @@ int lancerUnScenario(int taille, int it, int a, int n, float TEMP_FROID, float T
         chaufferMilieu((float*)matrice, n, taille, TEMP_CHAUD);
     }
 
-    //Affiche le quart de la matrice (après exécution) si l'option a est utilisee
+    //Affiche le quart de la matrice (apres execution) si l'option a est utilisee
     if(a) {
        afficherQuart((float*)matrice, taille);
     }
