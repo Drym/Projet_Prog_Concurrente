@@ -41,7 +41,7 @@ int main(int argc, char *argv[]) {
     int tailleE;
     int *t = malloc (sizeof(int));
     int tailleT;
-    int m = 0 , a = 0; //Booleen a faux
+    int m = 0 , a = 0, M = 0; //Booleen a faux
     //Tableau de char pour decouper les options
     char tmp[1];
 
@@ -51,7 +51,7 @@ int main(int argc, char *argv[]) {
     extern int optind, opterr;
 
     //Recuperation des options
-    while ((optch = getopt(argc, argv, "s:mai:e:t:")) != -1)
+    while ((optch = getopt(argc, argv, "s:mMai:e:t:")) != -1)
         switch (optch) {
             case 's':
                 //On decoupe les differentes tailles de problemes
@@ -66,6 +66,9 @@ int main(int argc, char *argv[]) {
                 break;
             case 'a':
                 a = 1;
+                break;
+            case 'M':
+                M = 1;
                 break;
             case 'i':
                 it = atoi(optarg);
@@ -95,7 +98,7 @@ int main(int argc, char *argv[]) {
         if(e[i] == 0) {
 
             //Appel de la fonction lancement
-            lancement(tailleS, s, it, a, m);
+            lancement(tailleS, s, it, a, m, M);
 
         }
 
@@ -111,44 +114,73 @@ int main(int argc, char *argv[]) {
  * Lance la fonction lancerUnScenario en prenant en compte le parametre -m
  * @author Chloe
  */
-int lancement(int tailleS, int s[], int it, int a, int m) {
+int lancement(int tailleS, int s[], int it, int a, int m, int M) {
 
     //On gere l'option -s
     for (int i=0; i< tailleS; i++) {
 
         //Variable pour le calcul de temps
         float temps[10];
+        float temps2[10];
 
         //Mise a jour de la taille
         n = 4 + s[i];
         taille = 2<<(n-1);
 
-        if(m){
+        //On gere l'option m et M
+        if(m || M){
             //on fait 10x la scenario pour avoir une moyenne du temps (on enleve les deux extremes)
-            lancerUnScenario(taille, it, a, n, TEMP_FROID, TEMP_CHAUD, &temps[0]);
+            lancerUnScenario(taille, it, a, n, TEMP_FROID, TEMP_CHAUD, &temps[0], &temps2[0]);
             float min=temps[0];
             float max=temps[0];
+
+            float min2=temps2[0];
+            float max2=temps2[0];
+
             for (int j=1; j<10; j++){
-                lancerUnScenario(taille, it, 0,  n , TEMP_FROID, TEMP_CHAUD, &temps[j]);//a =0 car on ne veut pas l'afficher a chaque fois
+                lancerUnScenario(taille, it, 0,  n , TEMP_FROID, TEMP_CHAUD, &temps[j], &temps2[j]);//a =0 car on ne veut pas l'afficher a chaque fois
                 if (temps[j]>max)
                     max=temps[j];
                 if (temps[j]<min)
                     min=temps[j];
+                if (temps2[j]>max2)
+                    max2=temps2[j];
+                if (temps2[j]<min2)
+                    min2=temps2[j];
+
             }
             //Calcul de la moyenne:
             float somme=0;
             int cmpt=0;
+
+            float somme2=0;
+            int cmpt2=0;
+
             for (int j = 0; j < 10; ++j){
                 //printf("temps[i]: %f\n", temps[j]);
-                if(temps[j]!=max && temps[j]!=min){
+                if(temps[j]!=max || temps[j]!=min){
                     somme+=temps[j];
                     cmpt++;
                 }
+
+                if(temps2[j]!=max2 || temps2[j]!=min2){
+                    somme2+=temps2[j];
+                    cmpt2++;
+                }
             }
+
             float f=somme/cmpt;
-            printf("Temps moyen pour matrice de taille %d : %f s\n", taille, f);
+            float f2=somme2/cmpt2;
+
+            if(m) {
+                printf("Temps moyen (CPU) pour matrice de taille %d : %f s\n", taille, f);
+            }
+            if(M) {
+                printf("Temps moyen (utilisateur) pour matrice de taille %d : %f s\n", taille, f2);
+            }
+
         } else {
-            lancerUnScenario(taille, it, a,  n ,TEMP_FROID, TEMP_CHAUD, &temps[0]);
+            lancerUnScenario(taille, it, a,  n ,TEMP_FROID, TEMP_CHAUD, &temps[0], &temps2[0]);
 
         }
 
@@ -165,13 +197,15 @@ int lancement(int tailleS, int s[], int it, int a, int m) {
  * Lance les operations sur la matrice : chauffe le milieu et effectue la repartition de la chaleur
  * @author Lucas
  */
-int lancerUnScenario(int taille, int it, int a, int n, float TEMP_FROID, float TEMP_CHAUD, float *temps){
+int lancerUnScenario(int taille, int it, int a, int n, float TEMP_FROID, float TEMP_CHAUD, float *temps, float *temps2){
     //Matrice
     float matrice[taille][taille];
 
     //Pour mesurer le temps
     clock_t t1, t2;
+    time_t tt1, tt2;
     t1 = clock();
+    tt1 = time(NULL);
 
     //On initialise la matrice avec des 0
     miseAzero((float*)matrice, taille);
@@ -196,7 +230,9 @@ int lancerUnScenario(int taille, int it, int a, int n, float TEMP_FROID, float T
 
     //Pour calculer le temps
     t2 = clock();
+    tt2 = time(NULL);
     *temps = (float) (t2 - t1) / CLOCKS_PER_SEC;
+    *temps2 = (float) (tt2 - tt1);
     return 0;
 }
 
