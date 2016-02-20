@@ -1,6 +1,6 @@
 /**
  * Modelisation de l'evolution de la chaleur sur une plaque chauffante
- * 14/02/2016
+ * 20/02/2016
  * Chole Guglielmi et Lucas Sauvage
  */
 #include <stdio.h>
@@ -108,8 +108,8 @@ int main(int argc, char *argv[]) {
 
 /**
  * Fonction lancement
- * Lance les operations sur la matrice : chauffe le milieu et effectue la repartition de la chaleur
- * @author Lucas
+ * Lance la fonction lancerUnScenario en prenant en compte le parametre -m
+ * @author Chloe
  */
 int lancement(int tailleS, int s[], int it, int a, int m) {
 
@@ -160,13 +160,18 @@ int lancement(int tailleS, int s[], int it, int a, int m) {
     return 0;
 }
 
-/* Fonction de lancement d'un seul scenario */
+/**
+ * Fonction lancement d'un scenario
+ * Lance les operations sur la matrice : chauffe le milieu et effectue la repartition de la chaleur
+ * @author Lucas
+ */
 int lancerUnScenario(int taille, int it, int a, int n, float TEMP_FROID, float TEMP_CHAUD, float *temps){
     //Matrice
     float matrice[taille][taille];
 
+    //Pour mesurer le temps
     clock_t t1, t2;
-    t1 = clock();//depart
+    t1 = clock();
 
     //On initialise la matrice avec des 0
     miseAzero((float*)matrice, taille);

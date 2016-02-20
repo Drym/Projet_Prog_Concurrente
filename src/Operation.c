@@ -1,6 +1,6 @@
 /**
  * Modelisation de l'evolution de la chaleur sur une plaque chauffante
- * 14/02/2016
+ * 20/02/2016
  * Chole Guglielmi et Lucas Sauvage
  */
 
