@@ -158,13 +158,19 @@ int lancement(int tailleS, int s[], int it, int a, int m, int M) {
 
             for (int j = 0; j < 10; ++j){
                 //printf("temps[i]: %f\n", temps[j]);
-                if(temps[j]!=max || temps[j]!=min){
+                if(temps[j]!=max && temps[j]!=min){
                     somme+=temps[j];
                     cmpt++;
                 }
 
-                if(temps2[j]!=max2 || temps2[j]!=min2){
-                    somme2+=temps2[j];
+                if(temps2[j] == min2){
+                    min2 = -1;
+                }
+                else if(temps2[j] == max2) {
+                    max2 = -1;
+                }
+                else {
+                    somme2 += temps2[j];
                     cmpt2++;
                 }
             }
