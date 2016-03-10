@@ -12,6 +12,8 @@
 #include "Main.h"
 #include "Affichage.h"
 #include "Operation.h"
+#include "ThreadPosix.h"
+#include <math.h>
 
 //Temperatures predefinies
 float TEMP_FROID = 0;
@@ -35,13 +37,14 @@ int main(int argc, char *argv[]) {
 
     //Variables des differentes options recupere en entree
     int *s = malloc (sizeof(int));
-    int tailleS;
+    int tailleS = 3;
     int it = 10000;
     int *e = malloc (sizeof(int));
-    int tailleE;
+    int tailleE = 6;
     int *t = malloc (sizeof(int));
-    int tailleT;
-    int m = 0 , a = 0, M = 0; //Booleen a faux
+    int tailleT = 2;
+    int m = 1; //Booleen a true
+    int a = 0, M = 0; //Booleen a faux
     //Tableau de char pour decouper les options
     char tmp[1];
 
@@ -49,6 +52,15 @@ int main(int argc, char *argv[]) {
     int optch;
     extern char * optarg;
     extern int optind, opterr;
+
+    //Initialisation des variables de parametre aux valeur par defaut
+    s[0] = 0; s[1] = 2; s[2] = 4;
+    t[0] = 1; t[1] = 3;
+
+    //On met 012345 dans e comme option
+    for(int i=0; i < tailleE; i++) {
+        e[i] = i;
+    }
 
     //Recuperation des options
     while ((optch = getopt(argc, argv, "s:mMai:e:t:")) != -1)
@@ -99,6 +111,29 @@ int main(int argc, char *argv[]) {
 
             //Appel de la fonction lancement
             lancement(tailleS, s, it, a, m, M);
+
+        }
+
+        if(e[i] == 1) {
+
+            /*
+            //TODO gerer option t
+
+            int aaa = pow(4,t[0]);
+            int tab[aaa+1];
+
+            n = 4 + s[i];
+            taille = 2<<(n-1);
+
+            decouper(taille, aaa, (int*)tab);
+
+
+            for (int i =0; i< aaa; i++) {
+                printf("%d\n", tab[i]);
+            }
+
+            lancementThread(taille, it, a, n, TEMP_FROID, TEMP_CHAUD, aaa, tab);
+             */
 
         }
 
@@ -157,7 +192,6 @@ int lancement(int tailleS, int s[], int it, int a, int m, int M) {
             int cmpt2=0;
 
             for (int j = 0; j < 10; ++j){
-                //printf("temps[i]: %f\n", temps[j]);
                 if(temps[j]!=max && temps[j]!=min){
                     somme+=temps[j];
                     cmpt++;
@@ -204,9 +238,8 @@ int lancement(int tailleS, int s[], int it, int a, int m, int M) {
  * @author Lucas
  */
 int lancerUnScenario(int taille, int it, int a, int n, float TEMP_FROID, float TEMP_CHAUD, float *temps, float *temps2){
+
     //Matrice
-    //float matrice[taille][taille];
-    printf("lancement d'un scenario\n");
     float **matrice;
     matrice = (float * *) malloc( taille * sizeof( float * ) ) ; 
         if ( matrice==NULL ) return -1 ; 
@@ -215,8 +248,7 @@ int lancerUnScenario(int taille, int it, int a, int n, float TEMP_FROID, float T
     for ( i = 0 ; i < taille ; i++ ) { 
       matrice[i] = ( float * ) malloc( taille * sizeof(float) ) ; 
       if ( matrice[i]==NULL ) return -1; ; 
-   } 
-   printf("nono\n");
+   }
 
     //Pour mesurer le temps
     clock_t t1, t2;
@@ -229,9 +261,6 @@ int lancerUnScenario(int taille, int it, int a, int n, float TEMP_FROID, float T
 
     //afficherQuart(matrice, taille);
     chaufferMilieu(matrice, n, taille, TEMP_CHAUD);
-
-    printf("On a chauffé le milieu avec= %p\n", matrice[0]);
-    //afficherQuart(matrice, taille);
 
     //Affiche le quart de la matrice (avant execution) si l'option a est utilisee
     if(a) {
@@ -251,14 +280,14 @@ int lancerUnScenario(int taille, int it, int a, int n, float TEMP_FROID, float T
 
     for (int i=1; i <= it; i++) {
         uneIterationV2(matrice, tmp, taille, TEMP_FROID);
-        //printf("YOYO\n");
         //On remet le centre chaud
         chaufferMilieu(matrice, n, taille, TEMP_CHAUD);
     }
 
+    //On free
     for ( i = 0 ; i < taille ; ++i ) {free( tmp[i] );} 
     free( tmp );
-    printf("nino\n");
+
     //Affiche le quart de la matrice (apres execution) si l'option a est utilisee
     if(a) {
        afficherQuart(matrice, taille);
@@ -270,9 +299,26 @@ int lancerUnScenario(int taille, int it, int a, int n, float TEMP_FROID, float T
     *temps = (float) (t2 - t1) / CLOCKS_PER_SEC;
     *temps2 = (float) (tt2 - tt1);
 
+    //On free
     for ( i = 0 ; i < taille ; ++i ) {free( matrice[i] );} 
     free( matrice );
+
     return 0;
 }
+
+/*
+int decouper(int taille, int t, int* tab) {
+
+    tab[0] = 0;
+
+    int tailleParThread = taille / t;
+
+    for(int i = 1; i < t ; i++) {
+        tab[i] = tab[i-1] + tailleParThread;
+    }
+
+    return 0;
+}
+ */
 
 
