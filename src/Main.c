@@ -12,8 +12,8 @@
 #include "Main.h"
 #include "Affichage.h"
 #include "Operation.h"
-#include "ThreadPosix.h"
 #include <math.h>
+ #include "Utils.h"
 
 //Temperatures predefinies
 float TEMP_FROID = 0;
@@ -182,7 +182,6 @@ int lancement(int tailleS, int s[], int it, int a, int m, int M) {
                     max2=temps2[j];
                 if (temps2[j]<min2)
                     min2=temps2[j];
-
             }
             //Calcul de la moyenne:
             float somme=0;
@@ -242,10 +241,9 @@ int lancerUnScenario(int taille, int it, int a, int n, float TEMP_FROID, float T
     //Matrice
     float **matrice;
     matrice = (float * *) malloc( taille * sizeof( float * ) ) ; 
-        if ( matrice==NULL ) return -1 ; 
+    if ( matrice==NULL ) return -1 ; 
 
-    int i;
-    for ( i = 0 ; i < taille ; i++ ) { 
+    for ( int i = 0 ; i < taille ; i++ ) { 
       matrice[i] = ( float * ) malloc( taille * sizeof(float) ) ; 
       if ( matrice[i]==NULL ) return -1; ; 
    }
@@ -267,25 +265,24 @@ int lancerUnScenario(int taille, int it, int a, int n, float TEMP_FROID, float T
         afficherQuart(matrice, taille);
     }
 
-        //Matrice temporaire
+    //Matrice temporaire pour les calculs
     float **tmp;
     tmp = (float * *) malloc( taille * sizeof( float * ) ) ; 
         if ( tmp==NULL ) return -1 ; 
-
-    for ( i = 0 ; i < taille ; i++ ) { 
+    for ( int i = 0 ; i < taille ; i++ ) { 
       tmp[i] = ( float * ) malloc( taille * sizeof(float) ) ; 
       if ( tmp[i]==NULL ) return -1; ; 
-   } 
+    } 
 
-
+    //Lancement des itérations
     for (int i=1; i <= it; i++) {
         uneIterationV2(matrice, tmp, taille, TEMP_FROID);
         //On remet le centre chaud
         chaufferMilieu(matrice, n, taille, TEMP_CHAUD);
     }
 
-    //On free
-    for ( i = 0 ; i < taille ; ++i ) {free( tmp[i] );} 
+    //On free la matrice temporaire
+    for ( int i = 0 ; i < taille ; ++i ) {free( tmp[i] );} 
     free( tmp );
 
     //Affiche le quart de la matrice (apres execution) si l'option a est utilisee
@@ -299,8 +296,8 @@ int lancerUnScenario(int taille, int it, int a, int n, float TEMP_FROID, float T
     *temps = (float) (t2 - t1) / CLOCKS_PER_SEC;
     *temps2 = (float) (tt2 - tt1);
 
-    //On free
-    for ( i = 0 ; i < taille ; ++i ) {free( matrice[i] );} 
+    //On free la matrice
+    for (int i = 0 ; i < taille ; ++i ) {free( matrice[i] );} 
     free( matrice );
 
     return 0;
