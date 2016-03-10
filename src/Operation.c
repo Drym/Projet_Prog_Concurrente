@@ -22,9 +22,7 @@ int chaufferMilieu(float **matrice, int n, int taille, float TEMP_CHAUD) {
     }
     for(int i=dep_chaud; i<fin_chaud;i++){
         for (int j=dep_chaud; j<fin_chaud;j++){
-            //printf("Ajout chaud a [%d][%d] \n", i, j);
             matrice[i][j]=TEMP_CHAUD;
-            //matrice[(taille * ligne) + colonne]
         }
     }
     return 0;
@@ -35,11 +33,11 @@ int chaufferMilieu(float **matrice, int n, int taille, float TEMP_CHAUD) {
  * Initialise la matrise avec des 0
  * @author Lucas
  */
-int miseAzero(float **matrice, int taille) {
+int miseAFroid(float **matrice, int taille, float TEMP_FROID) {
 
     for(int i=0; i< taille ; i++) {
         for (int j = 0; j < taille; j++) {
-            matrice[i][j] = 0;
+            matrice[i][j] = TEMP_FROID;
         }
     }
 
